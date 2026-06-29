@@ -648,7 +648,7 @@ export default function Home() {
                 </svg>
               </a>
               <a href="#" aria-label="LinkedIn" className="text-background/50 hover:text-white transition-colors"><Linkedin size={22} /></a>
-              <a href="#" aria-label="Instagram" className="text-background/50 hover:text-white transition-colors"><Instagram size={22} /></a>
+              <a href="https://www.instagram.com/lumora_ig/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-background/50 hover:text-white transition-colors"><Instagram size={22} /></a>
               <a href="#" aria-label="Dribbble" className="text-background/50 hover:text-white transition-colors"><Dribbble size={22} /></a>
             </div>
           </div>
