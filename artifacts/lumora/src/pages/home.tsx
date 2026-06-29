@@ -643,13 +643,13 @@ export default function Home() {
             <p>© {new Date().getFullYear()} Lumora. All rights reserved.</p>
             <div className="flex items-center gap-4">
               <a href="#" aria-label="X" className="text-background/50 hover:text-white transition-colors">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.633 5.903-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
-              <a href="#" aria-label="LinkedIn" className="text-background/50 hover:text-white transition-colors"><Linkedin size={18} /></a>
-              <a href="#" aria-label="Instagram" className="text-background/50 hover:text-white transition-colors"><Instagram size={18} /></a>
-              <a href="#" aria-label="Dribbble" className="text-background/50 hover:text-white transition-colors"><Dribbble size={18} /></a>
+              <a href="#" aria-label="LinkedIn" className="text-background/50 hover:text-white transition-colors"><Linkedin size={22} /></a>
+              <a href="#" aria-label="Instagram" className="text-background/50 hover:text-white transition-colors"><Instagram size={22} /></a>
+              <a href="#" aria-label="Dribbble" className="text-background/50 hover:text-white transition-colors"><Dribbble size={22} /></a>
             </div>
           </div>
         </div>
