@@ -593,8 +593,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="md:col-span-1">
-              <div className="flex items-center gap-2 mb-6">
-                <img src={lumoraLogo} alt="Lumora" className="h-10 w-auto rounded-lg grayscale invert brightness-200" />
+              <div className="mb-6">
                 <span className="font-serif font-bold text-xl text-white tracking-tight">Lumora</span>
               </div>
               <p className="text-sm leading-relaxed text-background/70">
