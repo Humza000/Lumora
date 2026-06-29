@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { projects } from "@/data/projects";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ export default function Home() {
   const { toast } = useToast();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [, setLocation] = useLocation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,7 +80,7 @@ export default function Home() {
           </button>
 
           <nav className="hidden md:flex items-center gap-8">
-            {["Services", "Portfolio", "Process", "About", "Reviews"].map((item) => (
+            {["Services", "Process", "About", "Reviews"].map((item) => (
               <button
                 key={item}
                 onClick={() => scrollTo(item.toLowerCase())}
@@ -87,6 +89,12 @@ export default function Home() {
                 {item}
               </button>
             ))}
+            <button
+              onClick={() => setLocation("/portfolio")}
+              className="text-base font-medium text-muted-foreground hover:text-primary transition-colors"
+            >
+              Portfolio
+            </button>
             <Button
               onClick={() => scrollTo("quote")}
               className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-7 py-2.5 text-base"
@@ -111,7 +119,7 @@ export default function Home() {
               exit={{ opacity: 0, y: -20 }}
               className="absolute top-full left-0 w-full bg-white shadow-lg border-t py-4 px-4 flex flex-col gap-4 md:hidden"
             >
-              {["Services", "Portfolio", "Process", "About", "Reviews"].map((item) => (
+              {["Services", "Process", "About", "Reviews"].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollTo(item.toLowerCase())}
@@ -120,6 +128,12 @@ export default function Home() {
                   {item}
                 </button>
               ))}
+              <button
+                onClick={() => { setMobileMenuOpen(false); setLocation("/portfolio"); }}
+                className="text-left text-lg font-medium py-2 border-b border-border/50"
+              >
+                Portfolio
+              </button>
               <Button onClick={() => scrollTo("quote")} className="w-full mt-2 rounded-full">
                 Get a Quote
               </Button>
@@ -219,47 +233,60 @@ export default function Home() {
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground">Selected Work</h2>
               <p className="mt-4 text-lg text-muted-foreground">A glimpse into our recent digital transformations.</p>
             </motion.div>
-            
-            <div className="flex flex-wrap gap-2">
-              {["All", "Web Design", "E-commerce", "Branding"].map((filter, i) => (
-                <button
-                  key={filter}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${i === 0 ? "bg-foreground text-background" : "bg-white text-muted-foreground hover:bg-white/80"}`}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <button
+                onClick={() => setLocation("/portfolio")}
+                className="inline-flex items-center gap-2 text-sm font-medium text-primary border border-primary/30 hover:bg-primary/5 px-5 py-2.5 rounded-full transition-colors"
+              >
+                View All Projects →
+              </button>
+            </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Aura Skincare", tag: "E-commerce", grad: "from-[#fdfbfb] to-[#ebedee]" },
-              { title: "Nexus Fintech", tag: "Web Design", grad: "from-[#e0c3fc] to-[#8ec5fc]" },
-              { title: "Kova Architecture", tag: "Branding", grad: "from-[#f5f7fa] to-[#c3cfe2]" },
-              { title: "Lumina Interiors", tag: "Web Design", grad: "from-[#ffecd2] to-[#fcb69f]" },
-              { title: "Vertex Capital", tag: "Web Design", grad: "from-[#cfd9df] to-[#e2ebf0]" },
-              { title: "Oasis Wellness", tag: "E-commerce", grad: "from-[#a1c4fd] to-[#c2e9fb]" },
-            ].map((project, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {projects.filter((p) => p.featured).map((project, i) => (
               <motion.div
-                key={project.title}
+                key={project.id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className="group relative rounded-2xl overflow-hidden cursor-pointer"
+                onClick={() => setLocation(`/portfolio/${project.slug}`)}
+                data-testid={`card-featured-${project.id}`}
               >
-                <div className={`aspect-[4/3] w-full bg-gradient-to-br ${project.grad} transition-transform duration-700 group-hover:scale-105`} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                  <p className="text-white/80 text-sm font-medium mb-2 tracking-wider uppercase">{project.tag}</p>
+                <div className={`aspect-[4/3] w-full bg-gradient-to-br ${project.heroGradient} transition-transform duration-700 group-hover:scale-105 relative`}>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="font-serif text-3xl font-bold text-white/15 tracking-widest uppercase">
+                      {project.title.split(" ")[0]}
+                    </span>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                  <p className="text-white/70 text-xs font-medium mb-2 tracking-widest uppercase">{project.category}</p>
                   <h3 className="text-white text-2xl font-serif font-bold">{project.title}</h3>
-                  <div className="mt-4 flex items-center text-white text-sm font-medium">
-                    View Project <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
+                  <p className="text-white/60 text-sm mt-2 line-clamp-2">{project.shortDescription}</p>
+                  <div className="mt-4 flex items-center text-white text-sm font-medium gap-1">
+                    View Case Study <span className="transition-transform group-hover:translate-x-1">→</span>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mt-10"
+          >
+            <button
+              onClick={() => setLocation("/portfolio")}
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors"
+            >
+              See all 6 projects →
+            </button>
+          </motion.div>
         </div>
       </section>
 
