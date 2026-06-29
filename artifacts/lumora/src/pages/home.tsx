@@ -591,7 +591,17 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-foreground text-background/80 py-16 border-t border-border/10">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-2 mb-6">
+                <img src={lumoraLogo} alt="Lumora" className="h-10 w-auto rounded-lg grayscale invert brightness-200" />
+                <span className="font-serif font-bold text-xl text-white tracking-tight">Lumora</span>
+              </div>
+              <p className="text-sm leading-relaxed text-background/70">
+                Crafting digital experiences that command attention and drive growth for ambitious brands worldwide.
+              </p>
+            </div>
+
             <div>
               <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Services</h4>
               <ul className="space-y-3 text-sm">
