@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Menu, X, Layout, Monitor, PenTool, Search, Zap, Code, Linkedin, Instagram, Twitter, Dribbble } from "lucide-react";
+import { Menu, X, Layout, Monitor, PenTool, Search, Zap, Code, Linkedin, Instagram, Dribbble } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import lumoraLogo from "@assets/lumora_profile_pic_1782764569677.png";
 
@@ -591,23 +591,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-foreground text-background/80 py-16 border-t border-border/10">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center gap-2 mb-6">
-                <img src={lumoraLogo} alt="Lumora" className="h-10 w-auto rounded-lg grayscale invert brightness-200" />
-                <span className="font-serif font-bold text-xl text-white tracking-tight">Lumora</span>
-              </div>
-              <p className="text-sm leading-relaxed mb-6">
-                Crafting digital experiences that command attention and drive growth for ambitious brands worldwide.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="text-background/60 hover:text-white transition-colors"><Twitter size={20} /></a>
-                <a href="#" className="text-background/60 hover:text-white transition-colors"><Linkedin size={20} /></a>
-                <a href="#" className="text-background/60 hover:text-white transition-colors"><Instagram size={20} /></a>
-                <a href="#" className="text-background/60 hover:text-white transition-colors"><Dribbble size={20} /></a>
-              </div>
-            </div>
-            
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
             <div>
               <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Services</h4>
               <ul className="space-y-3 text-sm">
@@ -615,10 +599,10 @@ export default function Home() {
                 <li><a href="#" className="hover:text-white transition-colors">Web Development</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">UI/UX Design</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Brand Identity</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">SEO Optimization</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">SEO Optimisation</a></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Company</h4>
               <ul className="space-y-3 text-sm">
@@ -628,25 +612,35 @@ export default function Home() {
                 <li><button onClick={() => scrollTo("reviews")} className="hover:text-white transition-colors">Client Reviews</button></li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Contact</h4>
               <ul className="space-y-3 text-sm">
-                <li>hello@lumorastudio.com</li>
-                <li>+1 (555) 123-4567</li>
-                <li className="pt-2 mt-2 border-t border-background/10">
-                  100 Design Ave, Suite 400<br />
-                  San Francisco, CA 94107
+                <li>
+                  <a href="mailto:hello.lumoradesign@gmail.com" className="hover:text-white transition-colors">
+                    hello.lumoradesign@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+447366130603" className="hover:text-white transition-colors">
+                    +44 7366 130603
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
-          
+
           <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-background/50">
-            <p>© {new Date().getFullYear()} Lumora Studio. All rights reserved.</p>
-            <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <p>© {new Date().getFullYear()} Lumora. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <a href="#" aria-label="X" className="text-background/50 hover:text-white transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.261 5.633 5.903-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              <a href="#" aria-label="LinkedIn" className="text-background/50 hover:text-white transition-colors"><Linkedin size={18} /></a>
+              <a href="#" aria-label="Instagram" className="text-background/50 hover:text-white transition-colors"><Instagram size={18} /></a>
+              <a href="#" aria-label="Dribbble" className="text-background/50 hover:text-white transition-colors"><Dribbble size={18} /></a>
             </div>
           </div>
         </div>
