@@ -181,7 +181,7 @@ export default function Home() {
       </section>
 
       {/* Services */}
-      <section id="services" className="py-24 bg-white">
+      <section id="services" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -222,7 +222,7 @@ export default function Home() {
       </section>
 
       {/* Portfolio */}
-      <section id="portfolio" className="py-24 bg-secondary/30">
+      <section id="portfolio" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <motion.div
@@ -291,7 +291,7 @@ export default function Home() {
       </section>
 
       {/* Process */}
-      <section id="process" className="py-24 bg-white">
+      <section id="process" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -353,7 +353,7 @@ export default function Home() {
               
               <div className="grid grid-cols-3 gap-6 mt-12 pt-12 border-t border-background/10">
                 <div>
-                  <div className="text-4xl font-serif font-bold text-primary mb-2">50+</div>
+                  <div className="text-4xl font-serif font-bold text-primary mb-2">10+</div>
                   <div className="text-sm text-background/60 uppercase tracking-wider font-medium">Projects Delivered</div>
                 </div>
                 <div>
@@ -361,7 +361,7 @@ export default function Home() {
                   <div className="text-sm text-background/60 uppercase tracking-wider font-medium">Client Satisfaction</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-serif font-bold text-primary mb-2">5</div>
+                  <div className="text-4xl font-serif font-bold text-primary mb-2">2</div>
                   <div className="text-sm text-background/60 uppercase tracking-wider font-medium">Years of Excellence</div>
                 </div>
               </div>
@@ -381,7 +381,7 @@ export default function Home() {
       </section>
 
       {/* Reviews */}
-      <section id="reviews" className="py-24 bg-secondary/30">
+      <section id="reviews" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -562,7 +562,7 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section className="py-24 bg-white">
+      <section className="py-24">
         <div className="container mx-auto px-4 md:px-6 max-w-3xl">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl md:text-5xl font-bold">Frequently Asked Questions</h2>
