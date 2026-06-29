@@ -74,7 +74,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-            <span className="font-serif font-bold text-xl tracking-tight text-primary">Lumora</span>
+            <span className="font-serif font-bold text-2xl tracking-tight text-primary">Lumora</span>
           </button>
 
           <nav className="hidden md:flex items-center gap-8">
@@ -82,14 +82,14 @@ export default function Home() {
               <button
                 key={item}
                 onClick={() => scrollTo(item.toLowerCase())}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className="text-base font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 {item}
               </button>
             ))}
             <Button
               onClick={() => scrollTo("quote")}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-6"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-7 py-2.5 text-base"
             >
               Get a Quote
             </Button>
