@@ -602,7 +602,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Services</h4>
+              <h4 className="font-serif font-bold text-xl text-white tracking-tight mb-6">Services</h4>
               <ul className="space-y-3 text-sm">
                 <li><a href="#" className="hover:text-white transition-colors">Web Design</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Web Development</a></li>
@@ -613,7 +613,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Company</h4>
+              <h4 className="font-serif font-bold text-xl text-white tracking-tight mb-6">Company</h4>
               <ul className="space-y-3 text-sm">
                 <li><button onClick={() => scrollTo("portfolio")} className="hover:text-white transition-colors">Portfolio</button></li>
                 <li><button onClick={() => scrollTo("process")} className="hover:text-white transition-colors">Our Process</button></li>
@@ -623,7 +623,7 @@ export default function Home() {
             </div>
 
             <div>
-              <h4 className="text-white font-bold mb-6 font-serif tracking-wide">Contact</h4>
+              <h4 className="font-serif font-bold text-xl text-white tracking-tight mb-6">Contact</h4>
               <ul className="space-y-3 text-sm">
                 <li>
                   <a href="mailto:hello.lumoradesign@gmail.com" className="hover:text-white transition-colors">
