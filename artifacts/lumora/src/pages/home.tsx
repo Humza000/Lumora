@@ -74,8 +74,7 @@ export default function Home() {
       >
         <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
           <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2">
-            <img src={lumoraLogo} alt="Lumora" className="h-10 md:h-12 w-auto rounded-lg object-cover" />
-            <span className="font-serif font-bold text-xl tracking-tight hidden sm:block">Lumora</span>
+            <span className="font-serif font-bold text-xl tracking-tight text-primary">Lumora</span>
           </button>
 
           <nav className="hidden md:flex items-center gap-8">
