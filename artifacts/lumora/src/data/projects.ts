@@ -15,6 +15,7 @@ export interface Project {
   results: { label: string; value: string }[];
   galleryGradients: string[];
   featured: boolean;
+  previewUrl: string;
 }
 
 export const projects: Project[] = [
@@ -54,6 +55,7 @@ export const projects: Project[] = [
       "from-[#1a1a2e] to-[#16213e]",
     ],
     featured: true,
+    previewUrl: "https://www.equinox.com",
   },
   {
     id: "2",
@@ -91,6 +93,7 @@ export const projects: Project[] = [
       "from-[#ede0d4] to-[#f5f0eb]",
     ],
     featured: true,
+    previewUrl: "https://www.heals.com",
   },
   {
     id: "3",
@@ -128,6 +131,7 @@ export const projects: Project[] = [
       "from-[#0f3460] to-[#1a1a2e]",
     ],
     featured: true,
+    previewUrl: "https://www.clarkhill.com",
   },
   {
     id: "4",
@@ -165,6 +169,7 @@ export const projects: Project[] = [
       "from-[#a0522d] to-[#3b2314]",
     ],
     featured: false,
+    previewUrl: "https://www.dishoom.com",
   },
   {
     id: "5",
@@ -202,6 +207,7 @@ export const projects: Project[] = [
       "from-[#7dd3fc] to-[#e0f2fe]",
     ],
     featured: false,
+    previewUrl: "https://www.bupa.co.uk/dental",
   },
   {
     id: "6",
@@ -239,6 +245,7 @@ export const projects: Project[] = [
       "from-[#3b82f6] to-[#1e3a5f]",
     ],
     featured: false,
+    previewUrl: "https://www.plumbingforce.co.uk",
   },
 ];
 

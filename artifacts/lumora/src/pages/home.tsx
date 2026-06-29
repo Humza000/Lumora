@@ -255,12 +255,18 @@ export default function Home() {
                 onClick={() => setLocation(`/portfolio/${project.slug}`)}
                 data-testid={`card-featured-${project.id}`}
               >
-                <div className={`aspect-[4/3] w-full bg-gradient-to-br ${project.heroGradient} transition-transform duration-700 group-hover:scale-105 relative`}>
-                  <div className="absolute inset-0 flex items-center justify-center">
+                <div className={`aspect-[4/3] w-full bg-gradient-to-br ${project.heroGradient} relative overflow-hidden`}>
+                  <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
                     <span className="font-serif text-3xl font-bold text-white/15 tracking-widest uppercase">
                       {project.title.split(" ")[0]}
                     </span>
                   </div>
+                  <img
+                    src={`https://api.microlink.io?url=${encodeURIComponent(project.previewUrl)}&screenshot=true&meta=false&embed=screenshot.url`}
+                    alt={`${project.title} preview`}
+                    className="absolute inset-0 w-full h-full object-cover object-top opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-100 group-hover:scale-105 transition-transform"
+                    loading="lazy"
+                  />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
                   <p className="text-white/70 text-xs font-medium mb-2 tracking-widest uppercase">{project.category}</p>
