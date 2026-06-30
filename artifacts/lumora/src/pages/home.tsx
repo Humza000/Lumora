@@ -709,7 +709,7 @@ export default function Home() {
                       <FormLabel>Project Details</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Tell us about your goals, timeline, and any specific requirements..." 
+                          placeholder="Tell us about your goals, inspirations, and any specific requirements..." 
                           className="min-h-[120px] bg-secondary/20" 
                           {...field} 
                         />
