@@ -11,15 +11,27 @@ export default function CaseStudy() {
   const project = projects.find((p) => p.slug === params.slug);
 
   if (!project) {
+    // Inject noindex so search engines don't index invalid case-study URLs
+    if (typeof document !== "undefined") {
+      const existing = document.querySelector('meta[name="robots"][data-dynamic]');
+      if (existing) existing.remove();
+      const meta = document.createElement("meta");
+      meta.setAttribute("name", "robots");
+      meta.setAttribute("content", "noindex, nofollow");
+      meta.setAttribute("data-dynamic", "true");
+      document.head.appendChild(meta);
+    }
     return (
       <div className="min-h-screen bg-[#faf9f6] text-[#1a1714] flex items-center justify-center font-sans">
-        <div className="text-center">
-          <p className="text-[#9c9590] text-lg mb-4">Project not found.</p>
+        <div className="text-center px-6">
+          <p className="text-7xl font-bold text-primary mb-4">404</p>
+          <h1 className="text-2xl font-bold text-[#1a1714] mb-2">Project not found</h1>
+          <p className="text-[#9c9590] mb-8">This case study doesn't exist or may have been removed.</p>
           <button
             onClick={() => setLocation("/portfolio")}
-            className="text-primary hover:underline"
+            className="inline-block bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-primary/90 transition-colors"
           >
-            Back to Portfolio
+            View all projects
           </button>
         </div>
       </div>
