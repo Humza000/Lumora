@@ -550,7 +550,7 @@ export default function Home() {
                           <SelectItem value="asap">ASAP</SelectItem>
                           <SelectItem value="2-3-weeks">2–3 Weeks</SelectItem>
                           <SelectItem value="1-month">1 Month</SelectItem>
-                          <SelectItem value="2-months">2 Months</SelectItem>
+                          <SelectItem value="flexible">Flexible</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
