@@ -740,7 +740,7 @@ export default function Home() {
               { q: "What is your typical project timeline?", a: "Most custom web design and development projects take between 8 to 12 weeks from discovery to launch, depending on complexity and scope." },
               { q: "Do you use templates?", a: "No. Every project we undertake is fully custom-designed for your brand to perfectly align with your unique needs and goals." },
               { q: "What tech stack do you use?", a: "We specialize in modern React ecosystems (Next.js, Vite), robust headless CMS solutions (Sanity, Contentful), and modern CSS frameworks like Tailwind." },
-              { q: "Do you provide ongoing maintenance?", a: "Yes, we offer retainer packages for ongoing technical support, updates, and continuous conversion rate optimization." },
+              { q: "Do you provide ongoing maintenance?", a: "Yes, we offer maintanence packages for ongoing technical support, updates, bug fixes, SEO optimization and analytics reviews." },
               { q: "How does pricing work?", a: "Projects are priced based on scope, features, and timeline. Our custom engagements typically start at $10,000." },
               { q: "Do you handle copywriting and SEO?", a: "Yes. Our team includes expert copywriters and SEO specialists who ensure your site not only looks beautiful but performs exceptionally in search engines." },
             ].map((faq, i) => (
