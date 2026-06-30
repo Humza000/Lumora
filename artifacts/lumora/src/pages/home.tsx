@@ -740,7 +740,7 @@ export default function Home() {
               { q: "What is your typical project timeline?", a: "Timelines depend on project type — landing pages typically take around 1-2 weeks, redesigns 2-3 weeks, full websites 3-4 weeks, and larger or more complex projects can take a month or more. We'll give you a clear estimate once we understand your project's scope." },
               { q: "Do you use templates?", a: "No. Every project we undertake is fully custom-designed for your brand to perfectly align with your unique needs and goals." },
               { q: "What tech stack do you use?", a: "We specialize in modern React ecosystems (Next.js, Vite), robust headless CMS solutions (Sanity, Contentful), and modern CSS frameworks like Tailwind." },
-              { q: "Do you provide ongoing maintenance?", a: "Yes, we offer monthly and yearly maintanence packages for ongoing technical support, updates, bug fixes, SEO optimization and analytics reviews." },
+              { q: "Do you provide ongoing maintenance?", a: "Yes, we offer monthly and yearly maintanence packages for ongoing technical support, security updates, bug fixes, client requests and analytics reviews." },
               { q: "How does pricing work?", a: "Pricing depends on the size and complexity of the project. Smaller sites and landing pages typically start from £500, while full websites and larger business projects start from £1,000+. We'll always give you a clear, upfront quote before starting any work." },
               { q: "Do you handle copywriting and SEO?", a: "Yes. Our team includes strategic copywriting support and SEO best practices to give your site a strong foundation for search." },
             ].map((faq, i) => (
