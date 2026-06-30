@@ -13,6 +13,10 @@ interface Submission {
   projectType: string;
   timeline: string;
   message: string;
+  companySize?: string | null;
+  existingWebsite?: string | null;
+  projectDriver?: string | null;
+  industry?: string | null;
   createdAt: string;
 }
 
@@ -239,7 +243,18 @@ export default function Admin() {
                 <div className="mt-4 flex gap-2 flex-wrap">
                   <Badge variant="outline">{s.projectType}</Badge>
                   <Badge variant="outline">{s.timeline}</Badge>
+                  {s.companySize && <Badge variant="outline">{s.companySize}</Badge>}
+                  {s.industry && <Badge variant="outline">{s.industry}</Badge>}
+                  {s.projectDriver && <Badge variant="secondary">{s.projectDriver}</Badge>}
                 </div>
+                {s.existingWebsite && (
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    Existing site:{" "}
+                    <a href={s.existingWebsite} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                      {s.existingWebsite}
+                    </a>
+                  </p>
+                )}
                 <p className="mt-4 text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
                   {s.message}
                 </p>

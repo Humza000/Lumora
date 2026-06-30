@@ -8,6 +8,10 @@ export interface QuoteEmailData {
   projectType: string;
   timeline: string;
   message: string;
+  companySize?: string | null;
+  existingWebsite?: string | null;
+  projectDriver?: string | null;
+  industry?: string | null;
 }
 
 export async function sendQuoteNotification(data: QuoteEmailData): Promise<void> {
@@ -36,6 +40,10 @@ export async function sendQuoteNotification(data: QuoteEmailData): Promise<void>
           <tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">Company</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${data.company}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">Project Type</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${data.projectType}</td></tr>
           <tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">Timeline</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${data.timeline}</td></tr>
+          ${data.companySize ? `<tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">Company Size</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${data.companySize}</td></tr>` : ""}
+          ${data.industry ? `<tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">Industry</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${data.industry}</td></tr>` : ""}
+          ${data.existingWebsite ? `<tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">Existing Website</td><td style="padding: 8px; border-bottom: 1px solid #eee;"><a href="${data.existingWebsite}">${data.existingWebsite}</a></td></tr>` : ""}
+          ${data.projectDriver ? `<tr><td style="padding: 8px; font-weight: bold; border-bottom: 1px solid #eee;">What's Driving This</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${data.projectDriver}</td></tr>` : ""}
           <tr><td style="padding: 8px; font-weight: bold;">Message</td><td style="padding: 8px;">${data.message}</td></tr>
         </table>
         <p style="margin-top: 24px; color: #666; font-size: 13px;">Submitted via Lumora Agency Website</p>

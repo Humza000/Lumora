@@ -21,6 +21,10 @@ export interface SubmitContactBody {
   timeline: string;
   /** @minLength 10 */
   message: string;
+  companySize?: string | null;
+  existingWebsite?: string | null;
+  projectDriver?: string | null;
+  industry?: string | null;
 }
 
 export interface ContactSubmission {
@@ -31,6 +35,10 @@ export interface ContactSubmission {
   projectType: string;
   timeline: string;
   message: string;
+  companySize?: string | null;
+  existingWebsite?: string | null;
+  projectDriver?: string | null;
+  industry?: string | null;
   createdAt: string;
 }
 

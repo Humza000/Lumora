@@ -121,6 +121,18 @@ components:
         message:
           type: string
           minLength: 10
+        companySize:
+          type: string
+          nullable: true
+        existingWebsite:
+          type: string
+          nullable: true
+        projectDriver:
+          type: string
+          nullable: true
+        industry:
+          type: string
+          nullable: true
       required:
         - name
         - email
@@ -146,6 +158,18 @@ components:
           type: string
         message:
           type: string
+        companySize:
+          type: string
+          nullable: true
+        existingWebsite:
+          type: string
+          nullable: true
+        projectDriver:
+          type: string
+          nullable: true
+        industry:
+          type: string
+          nullable: true
         createdAt:
           type: string
           format: date-time

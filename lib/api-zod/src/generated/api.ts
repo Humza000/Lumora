@@ -35,7 +35,11 @@ export const SubmitContactBody = zod.object({
   "company": zod.string().min(1),
   "projectType": zod.string().min(1),
   "timeline": zod.string().min(1),
-  "message": zod.string().min(submitContactBodyMessageMin)
+  "message": zod.string().min(submitContactBodyMessageMin),
+  "companySize": zod.string().nullish(),
+  "existingWebsite": zod.string().nullish(),
+  "projectDriver": zod.string().nullish(),
+  "industry": zod.string().nullish()
 })
 
 export const SubmitContactResponse = zod.object({
@@ -46,6 +50,10 @@ export const SubmitContactResponse = zod.object({
   "projectType": zod.string(),
   "timeline": zod.string(),
   "message": zod.string(),
+  "companySize": zod.string().nullish(),
+  "existingWebsite": zod.string().nullish(),
+  "projectDriver": zod.string().nullish(),
+  "industry": zod.string().nullish(),
   "createdAt": zod.coerce.date()
 })
 
@@ -61,6 +69,10 @@ export const ListSubmissionsResponseItem = zod.object({
   "projectType": zod.string(),
   "timeline": zod.string(),
   "message": zod.string(),
+  "companySize": zod.string().nullish(),
+  "existingWebsite": zod.string().nullish(),
+  "projectDriver": zod.string().nullish(),
+  "industry": zod.string().nullish(),
   "createdAt": zod.coerce.date()
 })
 export const ListSubmissionsResponse = zod.array(ListSubmissionsResponseItem)

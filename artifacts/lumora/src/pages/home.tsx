@@ -24,6 +24,10 @@ const formSchema = z.object({
   projectType: z.string().min(1, "Please select a project type"),
   timeline: z.string().min(1, "Please select a project timeline"),
   message: z.string().min(10, "Message must be at least 10 characters"),
+  companySize: z.string().optional(),
+  existingWebsite: z.string().optional(),
+  projectDriver: z.string().optional(),
+  industry: z.string().optional(),
 });
 
 export default function Home() {
@@ -70,6 +74,10 @@ export default function Home() {
       projectType: "",
       timeline: "",
       message: "",
+      companySize: "",
+      existingWebsite: "",
+      projectDriver: "",
+      industry: "",
     },
   });
 
@@ -570,6 +578,104 @@ export default function Home() {
                     )}
                   />
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="companySize"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company Size</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="bg-secondary/20">
+                              <SelectValue placeholder="Select size" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="just-me">Just me</SelectItem>
+                            <SelectItem value="startup-2-10">Startup (2–10)</SelectItem>
+                            <SelectItem value="small-11-50">Small business (11–50)</SelectItem>
+                            <SelectItem value="established-50+">Established business (50+)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="industry"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Industry / Sector</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="bg-secondary/20">
+                              <SelectValue placeholder="Select industry" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="legal">Legal</SelectItem>
+                            <SelectItem value="finance">Finance & Fintech</SelectItem>
+                            <SelectItem value="healthcare">Healthcare</SelectItem>
+                            <SelectItem value="ecommerce">E-commerce & Retail</SelectItem>
+                            <SelectItem value="hospitality">Hospitality & Food</SelectItem>
+                            <SelectItem value="trades">Trades & Construction</SelectItem>
+                            <SelectItem value="fitness">Health & Fitness</SelectItem>
+                            <SelectItem value="real-estate">Real Estate</SelectItem>
+                            <SelectItem value="tech">Technology & SaaS</SelectItem>
+                            <SelectItem value="creative">Creative & Media</SelectItem>
+                            <SelectItem value="education">Education</SelectItem>
+                            <SelectItem value="nonprofit">Non-profit</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="existingWebsite"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Existing Website <span className="text-muted-foreground font-normal">(optional)</span></FormLabel>
+                      <FormControl>
+                        <Input placeholder="https://yourwebsite.com" {...field} className="bg-secondary/20" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="projectDriver"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>What's driving this project right now?</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-secondary/20">
+                            <SelectValue placeholder="Select reason" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="new-business">Launching a new business</SelectItem>
+                          <SelectItem value="rebranding">Rebranding</SelectItem>
+                          <SelectItem value="not-converting">Current site isn't converting</SelectItem>
+                          <SelectItem value="outdated">Current site is outdated</SelectItem>
+                          <SelectItem value="new-market">Expanding into a new market</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}

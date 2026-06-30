@@ -10,6 +10,10 @@ export const quoteSubmissionsTable = pgTable("quote_submissions", {
   projectType: text("project_type").notNull(),
   timeline: text("timeline").notNull(),
   message: text("message").notNull(),
+  companySize: text("company_size"),
+  existingWebsite: text("existing_website"),
+  projectDriver: text("project_driver"),
+  industry: text("industry"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
