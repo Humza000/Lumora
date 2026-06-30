@@ -14,6 +14,7 @@ runButton = "Project"
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
+integrations = ["resend:1.0.0"]
 
 [postMerge]
 path = "scripts/post-merge.sh"
@@ -23,3 +24,6 @@ timeoutMs = 20000
 
 [userenv.shared]
 ADMIN_EMAIL = "hello.lumoradesign@gmail.com"
+
+[nix]
+channel = "stable-25_05"
