@@ -23,7 +23,39 @@ publicDir = "artifacts/lumora/dist/public"
 serve = "static"
 
 [[services.production.rewrites]]
-from = "/*"
+from = "/"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio/peak-performance-gym"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio/maison-co"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio/sterling-legal-group"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio/the-workshop-cafe"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio/brightsmile-dental"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/portfolio/tradecraft-plumbing"
+to = "/index.html"
+
+[[services.production.rewrites]]
+from = "/admin"
 to = "/index.html"
 
 [services.env]
