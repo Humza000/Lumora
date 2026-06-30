@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
+/* Always show scrollbar so the gutter never appears/disappears,
+   and zero out Radix UI's scroll-lock compensation padding */
 html {
-  scrollbar-gutter: stable;
+  overflow-y: scroll;
 }
 
-/* Prevent Radix UI from shifting the page when a dropdown locks scroll */
 body[data-scroll-locked] {
   padding-right: 0 !important;
   margin-right: 0 !important;
