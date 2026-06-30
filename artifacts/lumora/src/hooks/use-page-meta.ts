@@ -42,6 +42,9 @@ export function usePageMeta({ title, description, ogTitle, ogDescription, ogUrl,
     setMetaContent('meta[name="twitter:title"]', "name", "twitter:title", resolvedOgTitle);
     setMetaContent('meta[name="twitter:description"]', "name", "twitter:description", resolvedOgDesc);
 
+    setMetaContent('meta[property="og:site_name"]', "property", "og:site_name", "Lumora");
+    setMetaContent('meta[property="og:locale"]', "property", "og:locale", "en_GB");
+
     if (ogUrl) {
       setMetaContent('meta[property="og:url"]', "property", "og:url", ogUrl);
     }

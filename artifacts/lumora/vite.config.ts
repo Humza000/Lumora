@@ -62,6 +62,13 @@ function escapeAttr(str: string): string {
     .replace(/>/g, "&gt;");
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function injectJsonLd(html: string, schemas: unknown[]): string {
   const blocks = schemas
     .map((s) => `  <script type="application/ld+json">\n  ${JSON.stringify(s, null, 2).replace(/\n/g, "\n  ")}\n  </script>`)
@@ -90,6 +97,143 @@ function injectHeadMeta(
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/,  `$1${ogDesc}$2`)
     .replace(/(<meta name="twitter:image" content=")[^"]*(")/,  `$1${escapeAttr(meta.ogImageUrl)}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/,  `$1${escapeAttr(meta.canonical)}$2`);
+}
+
+function buildHomeBodyHtml(origin: string): string {
+  const featuredProjects = projects.filter((p) => p.featured);
+  const projectLinks = projects
+    .map((p) => `<li><a href="${origin}/portfolio/${p.slug}">${escapeHtml(p.title)}</a> — ${escapeHtml(p.shortDescription)}</li>`)
+    .join("\n        ");
+  const featuredCards = featuredProjects
+    .map(
+      (p) =>
+        `<article>
+          <h3><a href="${origin}/portfolio/${p.slug}">${escapeHtml(p.title)}</a></h3>
+          <p>${escapeHtml(p.category)} · ${escapeHtml(p.industry)}</p>
+          <p>${escapeHtml(p.shortDescription)}</p>
+        </article>`
+    )
+    .join("\n        ");
+
+  return `<div id="root"><header>
+      <nav>
+        <a href="${origin}/">Lumora</a>
+        <a href="${origin}/portfolio">Portfolio</a>
+      </nav>
+    </header>
+    <main>
+      <section>
+        <h1>We Build Websites That Convert.</h1>
+        <p>A boutique digital agency crafting premium, high-performance web experiences for ambitious brands who refuse to settle for ordinary.</p>
+      </section>
+      <section>
+        <h2>Services</h2>
+        <ul>
+          <li>Web Design — Bespoke, user-centric interfaces that captivate and engage your audience.</li>
+          <li>Web Development — Robust, scalable, and lightning-fast code architectures built for the future.</li>
+          <li>UI/UX Design — Intuitive user journeys rooted in deep research and psychological principles.</li>
+          <li>Brand Identity — Cohesive visual systems that communicate your unique market position.</li>
+          <li>SEO Optimization — Strategic technical implementation to ensure your brand is discovered.</li>
+          <li>Conversion Optimization — Data-driven refinements that turn casual visitors into loyal customers.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Selected Work</h2>
+        ${featuredCards}
+        <p><a href="${origin}/portfolio">View all projects</a></p>
+      </section>
+      <section>
+        <h2>All Projects</h2>
+        <ul>
+        ${projectLinks}
+        </ul>
+      </section>
+    </main></div>`;
+}
+
+function buildPortfolioBodyHtml(origin: string): string {
+  const projectCards = projects
+    .map(
+      (p) =>
+        `<article>
+          <h2><a href="${origin}/portfolio/${p.slug}">${escapeHtml(p.title)}</a></h2>
+          <p>${escapeHtml(p.category)} · ${escapeHtml(p.industry)}</p>
+          <p>${escapeHtml(p.shortDescription)}</p>
+          <ul>${p.badges.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}</ul>
+          <a href="${origin}/portfolio/${p.slug}">View Case Study</a>
+        </article>`
+    )
+    .join("\n      ");
+
+  return `<div id="root"><header>
+      <nav>
+        <a href="${origin}/">Home</a>
+        <a href="${origin}/portfolio">Portfolio</a>
+      </nav>
+    </header>
+    <main>
+      <h1>Portfolio — Lumora Agency</h1>
+      <p>Browse our portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.</p>
+      <section>
+      ${projectCards}
+      </section>
+    </main></div>`;
+}
+
+function buildCaseStudyBodyHtml(p: (typeof projects)[number], origin: string): string {
+  const resultItems = p.results
+    .map((r) => `<li><strong>${escapeHtml(r.value)}</strong> ${escapeHtml(r.label)}</li>`)
+    .join("\n        ");
+  const featureItems = p.keyFeatures
+    .map((f) => `<li>${escapeHtml(f)}</li>`)
+    .join("\n        ");
+  const techItems = p.technologies
+    .map((t) => `<li>${escapeHtml(t)}</li>`)
+    .join("\n        ");
+
+  return `<div id="root"><header>
+      <nav>
+        <a href="${origin}/">Home</a>
+        <a href="${origin}/portfolio">Portfolio</a>
+        <a href="${origin}/portfolio/${p.slug}">${escapeHtml(p.title)}</a>
+      </nav>
+    </header>
+    <main>
+      <article>
+        <header>
+          <span>${escapeHtml(p.category)} · ${escapeHtml(p.industry)}</span>
+          <h1>${escapeHtml(p.title)}</h1>
+          <p>${escapeHtml(p.shortDescription)}</p>
+        </header>
+        <section>
+          <h2>Results</h2>
+          <ul>${resultItems}</ul>
+        </section>
+        <section>
+          <h2>The Challenge</h2>
+          <p>${escapeHtml(p.challenge)}</p>
+        </section>
+        <section>
+          <h2>Our Solution</h2>
+          <p>${escapeHtml(p.solution)}</p>
+        </section>
+        <section>
+          <h2>Key Features</h2>
+          <ul>${featureItems}</ul>
+        </section>
+        <section>
+          <h2>Technologies</h2>
+          <ul>${techItems}</ul>
+        </section>
+        <footer>
+          <a href="${origin}/portfolio">View all projects</a>
+        </footer>
+      </article>
+    </main></div>`;
+}
+
+function injectBodyHtml(html: string, bodyContent: string): string {
+  return html.replace(/<div id="root"><\/div>/, bodyContent);
 }
 
 function prerenderMetaPlugin(): Plugin {
@@ -216,6 +360,18 @@ function prerenderMetaPlugin(): Plugin {
         });
         if (route.meta.schemas && route.meta.schemas.length > 0) {
           html = injectJsonLd(html, route.meta.schemas);
+        }
+
+        if (route.routePath === "/") {
+          html = injectBodyHtml(html, buildHomeBodyHtml(origin));
+        } else if (route.routePath === "/portfolio") {
+          html = injectBodyHtml(html, buildPortfolioBodyHtml(origin));
+        } else if (route.routePath.startsWith("/portfolio/")) {
+          const slug = route.routePath.replace("/portfolio/", "");
+          const project = projects.find((p) => p.slug === slug);
+          if (project) {
+            html = injectBodyHtml(html, buildCaseStudyBodyHtml(project, origin));
+          }
         }
 
         const outFilePath = path.join(outDir, route.outPath);
