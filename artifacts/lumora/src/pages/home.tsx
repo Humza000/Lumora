@@ -742,7 +742,7 @@ export default function Home() {
               { q: "What tech stack do you use?", a: "We specialize in modern React ecosystems (Next.js, Vite), robust headless CMS solutions (Sanity, Contentful), and modern CSS frameworks like Tailwind." },
               { q: "Do you provide ongoing maintenance?", a: "Yes, we offer maintanence packages for ongoing technical support, updates, bug fixes, SEO optimization and analytics reviews." },
               { q: "How does pricing work?", a: "Projects are priced based on scope, features, and timeline. Our custom engagements typically start at $10,000." },
-              { q: "Do you handle copywriting and SEO?", a: "Yes. Our team includes expert copywriters and SEO specialists who ensure your site not only looks beautiful but performs exceptionally in search engines." },
+              { q: "Do you handle copywriting and SEO?", a: "Yes. Our team includes strategic copywriting support and SEO best practices to give your site a strong foundation for search." },
             ].map((faq, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="border-b border-border/50 py-2">
                 <AccordionTrigger className="text-lg font-medium text-left hover:text-primary hover:no-underline">{faq.q}</AccordionTrigger>
