@@ -15,6 +15,8 @@ function sitemapPlugin(): Plugin {
       const base = `https://${host}`;
       const outDir = path.resolve(import.meta.dirname, "dist/public");
 
+      fs.mkdirSync(outDir, { recursive: true });
+
       const staticPaths = ["/", "/portfolio"];
       const slugPaths = projects.map((p) => `/portfolio/${p.slug}`);
       const allPaths = [...staticPaths, ...slugPaths];
