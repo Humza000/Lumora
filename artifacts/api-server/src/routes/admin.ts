@@ -1,9 +1,26 @@
-import { Router, type IRouter } from "express";
+import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
 import { db, quoteSubmissionsTable } from "@workspace/db";
 import { ListSubmissionsResponse } from "@workspace/api-zod";
 import { desc, eq } from "drizzle-orm";
 
 const router: IRouter = Router();
+
+function requireAdminAuth(req: Request, res: Response, next: NextFunction): void {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword) {
+    next();
+    return;
+  }
+  const auth = req.headers["authorization"] ?? "";
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+  if (token !== adminPassword) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  next();
+}
+
+router.use("/admin", requireAdminAuth);
 
 router.get("/admin/submissions", async (req, res): Promise<void> => {
   const submissions = await db
