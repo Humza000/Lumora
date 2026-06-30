@@ -737,7 +737,7 @@ export default function Home() {
           
           <Accordion type="single" collapsible className="w-full">
             {[
-              { q: "What is your typical project timeline?", a: "Most custom web design and development projects take between 8 to 12 weeks from discovery to launch, depending on complexity and scope." },
+              { q: "What is your typical project timeline?", a: "Timelines depend on project type — landing pages typically take around 1-2 weeks, full websites 3-4 weeks, redesigns 2-3 weeks, and larger or more complex projects can take a month or more. We'll give you a clear estimate once we understand your project's scope." },
               { q: "Do you use templates?", a: "No. Every project we undertake is fully custom-designed for your brand to perfectly align with your unique needs and goals." },
               { q: "What tech stack do you use?", a: "We specialize in modern React ecosystems (Next.js, Vite), robust headless CMS solutions (Sanity, Contentful), and modern CSS frameworks like Tailwind." },
               { q: "Do you provide ongoing maintenance?", a: "Yes, we offer maintanence packages for ongoing technical support, updates, bug fixes, SEO optimization and analytics reviews." },
