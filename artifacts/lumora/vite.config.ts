@@ -50,6 +50,7 @@ interface RouteMeta {
   description: string;
   ogTitle?: string;
   ogDescription?: string;
+  schemas?: unknown[];
 }
 
 function escapeAttr(str: string): string {
@@ -58,6 +59,13 @@ function escapeAttr(str: string): string {
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function injectJsonLd(html: string, schemas: unknown[]): string {
+  const blocks = schemas
+    .map((s) => `  <script type="application/ld+json">\n  ${JSON.stringify(s, null, 2).replace(/\n/g, "\n  ")}\n  </script>`)
+    .join("\n");
+  return html.replace("</head>", `${blocks}\n</head>`);
 }
 
 function injectHeadMeta(
@@ -99,6 +107,20 @@ function prerenderMetaPlugin(): Plugin {
       const template = fs.readFileSync(templatePath, "utf8");
       const ogImage = baseUrl ? `${baseUrl}/opengraph.jpg` : "/opengraph.jpg";
 
+      const origin = baseUrl || "";
+
+      const orgSchema = {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Lumora",
+        "description": "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands.",
+        "email": "hello.lumoradesign@gmail.com",
+        "telephone": "+44 7366 130603",
+        "url": origin || undefined,
+        "sameAs": ["https://www.instagram.com/lumora_ig/"],
+        "serviceType": ["Web Design", "Web Development", "UI/UX Design", "Brand Identity", "SEO Optimization", "Conversion Optimization"],
+      };
+
       const routes: Array<{ routePath: string; outPath: string; meta: RouteMeta }> = [
         {
           routePath: "/",
@@ -110,6 +132,15 @@ function prerenderMetaPlugin(): Plugin {
             ogTitle: "Lumora — Premium Web Design & Development Agency",
             ogDescription:
               "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands who refuse to settle for ordinary.",
+            schemas: [
+              orgSchema,
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Lumora",
+                "url": origin || undefined,
+              },
+            ],
           },
         },
         {
@@ -122,6 +153,23 @@ function prerenderMetaPlugin(): Plugin {
             ogTitle: "Portfolio — Lumora Agency",
             ogDescription:
               "Explore our portfolio of premium web experiences — from gym membership portals to luxury e-commerce storefronts and local trade websites.",
+            schemas: [
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": `${origin}/` },
+                  { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": `${origin}/portfolio` },
+                ],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": "Portfolio — Lumora Agency",
+                "description": "Browse Lumora's portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.",
+                "url": `${origin}/portfolio`,
+              },
+            ],
           },
         },
         ...projects.map((p) => ({
@@ -132,18 +180,42 @@ function prerenderMetaPlugin(): Plugin {
             description: p.shortDescription,
             ogTitle: `${p.title} — Case Study | Lumora`,
             ogDescription: p.shortDescription,
+            schemas: [
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  { "@type": "ListItem", "position": 1, "name": "Home", "item": `${origin}/` },
+                  { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": `${origin}/portfolio` },
+                  { "@type": "ListItem", "position": 3, "name": p.title, "item": `${origin}/portfolio/${p.slug}` },
+                ],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": p.title,
+                "description": p.shortDescription,
+                "url": `${origin}/portfolio/${p.slug}`,
+                "author": { "@type": "Organization", "name": "Lumora" },
+                "publisher": { "@type": "Organization", "name": "Lumora" },
+                "about": { "@type": "Thing", "name": p.industry },
+              },
+            ],
           },
         })),
       ];
 
       for (const route of routes) {
         const canonical = baseUrl ? `${baseUrl}${route.routePath}` : route.routePath;
-        const html = injectHeadMeta(template, {
+        let html = injectHeadMeta(template, {
           ...route.meta,
           canonical,
           ogUrl: canonical,
           ogImageUrl: ogImage,
         });
+        if (route.meta.schemas && route.meta.schemas.length > 0) {
+          html = injectJsonLd(html, route.meta.schemas);
+        }
 
         const outFilePath = path.join(outDir, route.outPath);
         fs.mkdirSync(path.dirname(outFilePath), { recursive: true });

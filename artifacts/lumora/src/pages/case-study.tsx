@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation, useParams } from "wouter";
+import { Link, useParams } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, TrendingUp } from "lucide-react";
 import { projects } from "@/data/projects";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { useStructuredData } from "@/hooks/use-structured-data";
 
-function CaseStudyNotFound({ onBack }: { onBack: () => void }) {
+function CaseStudyNotFound() {
   useEffect(() => {
     const meta = document.createElement("meta");
     meta.setAttribute("name", "robots");
@@ -21,12 +22,12 @@ function CaseStudyNotFound({ onBack }: { onBack: () => void }) {
         <p className="text-7xl font-bold text-primary mb-4">404</p>
         <h1 className="text-2xl font-bold text-[#1a1714] mb-2">Project not found</h1>
         <p className="text-[#9c9590] mb-8">This case study doesn't exist or may have been removed.</p>
-        <button
-          onClick={onBack}
+        <Link
+          href="/portfolio"
           className="inline-block bg-primary text-white px-6 py-3 rounded-full font-medium hover:bg-primary/90 transition-colors"
         >
           View all projects
-        </button>
+        </Link>
       </div>
     </div>
   );
@@ -34,7 +35,6 @@ function CaseStudyNotFound({ onBack }: { onBack: () => void }) {
 
 export default function CaseStudy() {
   const params = useParams<{ slug: string }>();
-  const [, setLocation] = useLocation();
 
   const project = projects.find((p) => p.slug === params.slug);
 
@@ -48,8 +48,35 @@ export default function CaseStudy() {
     canonical: project ? `/portfolio/${project.slug}` : undefined,
   });
 
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  useStructuredData(
+    project
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": origin + "/" },
+              { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": origin + "/portfolio" },
+              { "@type": "ListItem", "position": 3, "name": project.title, "item": origin + "/portfolio/" + project.slug },
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": project.title,
+            "description": project.shortDescription,
+            "url": origin + "/portfolio/" + project.slug,
+            "author": { "@type": "Organization", "name": "Lumora" },
+            "publisher": { "@type": "Organization", "name": "Lumora" },
+            "about": { "@type": "Thing", "name": project.industry },
+          },
+        ]
+      : []
+  );
+
   if (!project) {
-    return <CaseStudyNotFound onBack={() => setLocation("/portfolio")} />;
+    return <CaseStudyNotFound />;
   }
 
   const currentIndex = projects.findIndex((p) => p.slug === params.slug);
@@ -61,22 +88,22 @@ export default function CaseStudy() {
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-[#faf9f6]/95 backdrop-blur-md border-b border-[#e8e3db]">
         <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-          <button
-            onClick={() => setLocation("/portfolio")}
+          <Link
+            href="/portfolio"
             className="flex items-center gap-2 text-[#9c9590] hover:text-[#1a1714] transition-colors text-sm"
             data-testid="btn-back-portfolio"
           >
             <ArrowLeft size={16} />
             All Projects
-          </button>
-          <span className="font-serif font-bold text-xl text-primary">Lumora</span>
-          <button
-            onClick={() => setLocation("/")}
+          </Link>
+          <Link href="/" className="font-serif font-bold text-xl text-primary">Lumora</Link>
+          <a
+            href="/#quote"
             className="text-sm font-medium bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full transition-colors"
             data-testid="btn-get-quote-nav"
           >
             Get a Quote
-          </button>
+          </a>
         </div>
       </nav>
 
@@ -308,13 +335,13 @@ export default function CaseStudy() {
             <p className="text-white/70 text-lg mb-8 max-w-lg mx-auto">
               Let's talk about your project. We'll put together a tailored proposal within 48 hours — no obligation.
             </p>
-            <button
-              onClick={() => setLocation("/")}
+            <a
+              href="/#quote"
               className="inline-flex items-center gap-2 bg-white hover:bg-white/90 text-primary font-semibold px-8 py-4 rounded-full transition-all duration-200 hover:scale-105 text-base shadow-lg"
               data-testid="btn-cta-quote"
             >
               Request a Free Quote <ArrowRight size={18} />
-            </button>
+            </a>
           </motion.div>
         </div>
       </section>
@@ -324,8 +351,8 @@ export default function CaseStudy() {
         <section className="py-12 border-t border-[#e8e3db]">
           <div className="container mx-auto px-4 md:px-8 flex justify-between gap-4">
             {prevProject ? (
-              <button
-                onClick={() => setLocation(`/portfolio/${prevProject.slug}`)}
+              <Link
+                href={`/portfolio/${prevProject.slug}`}
                 className="flex items-center gap-3 text-left group"
                 data-testid="btn-prev-project"
               >
@@ -336,11 +363,11 @@ export default function CaseStudy() {
                     {prevProject.title}
                   </p>
                 </div>
-              </button>
+              </Link>
             ) : <div />}
             {nextProject ? (
-              <button
-                onClick={() => setLocation(`/portfolio/${nextProject.slug}`)}
+              <Link
+                href={`/portfolio/${nextProject.slug}`}
                 className="flex items-center gap-3 text-right group"
                 data-testid="btn-next-project"
               >
@@ -351,7 +378,7 @@ export default function CaseStudy() {
                   </p>
                 </div>
                 <ArrowRight size={18} className="text-[#9c9590] group-hover:text-primary transition-colors" />
-              </button>
+              </Link>
             ) : <div />}
           </div>
         </section>

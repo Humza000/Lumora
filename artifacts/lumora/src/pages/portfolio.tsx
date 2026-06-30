@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from "react";
-import { useLocation } from "wouter";
+import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Search, ArrowRight, ArrowLeft } from "lucide-react";
 import { projects, categories, type Category } from "@/data/projects";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { useStructuredData } from "@/hooks/use-structured-data";
 
 export default function Portfolio() {
-  const [, setLocation] = useLocation();
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -19,6 +19,25 @@ export default function Portfolio() {
       "Explore our portfolio of premium web experiences — from gym membership portals to luxury e-commerce storefronts and local trade websites.",
     canonical: "/portfolio",
   });
+
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  useStructuredData([
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": origin + "/" },
+        { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": origin + "/portfolio" },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Portfolio — Lumora Agency",
+      "description": "Browse Lumora's portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.",
+      "url": origin + "/portfolio",
+    },
+  ]);
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
@@ -38,22 +57,22 @@ export default function Portfolio() {
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-[#faf9f6]/95 backdrop-blur-md border-b border-[#e8e3db]">
         <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
-          <button
-            onClick={() => setLocation("/")}
+          <Link
+            href="/"
             className="flex items-center gap-2 text-[#9c9590] hover:text-[#1a1714] transition-colors text-sm"
             data-testid="btn-back-home"
           >
             <ArrowLeft size={16} />
             Back to Home
-          </button>
-          <span className="font-serif font-bold text-xl text-primary">Lumora</span>
-          <button
-            onClick={() => setLocation("/")}
+          </Link>
+          <Link href="/" className="font-serif font-bold text-xl text-primary">Lumora</Link>
+          <a
+            href="/#quote"
             className="text-sm font-medium bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full transition-colors"
             data-testid="btn-get-quote-nav"
           >
             Get a Quote
-          </button>
+          </a>
         </div>
       </nav>
 
@@ -139,8 +158,10 @@ export default function Portfolio() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                   data-testid={`card-project-${project.id}`}
-                  className="group relative bg-white border border-[#e8e3db] rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 hover:shadow-xl hover:shadow-primary/8 transition-all duration-300"
-                  onClick={() => setLocation(`/portfolio/${project.slug}`)}
+                >
+                <Link
+                  href={`/portfolio/${project.slug}`}
+                  className="group relative bg-white border border-[#e8e3db] rounded-2xl overflow-hidden cursor-pointer hover:border-primary/30 hover:shadow-xl hover:shadow-primary/8 transition-all duration-300 block"
                 >
                   {/* Image */}
                   <div className={`h-52 w-full bg-gradient-to-br ${project.heroGradient} relative overflow-hidden`}>
@@ -193,6 +214,7 @@ export default function Portfolio() {
                       <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
+                </Link>
                 </motion.article>
               ))}
             </div>
@@ -214,13 +236,13 @@ export default function Portfolio() {
             <p className="text-[#6b6560] text-lg mb-8 max-w-xl mx-auto">
               Tell us about your project and we'll come back with a plan.
             </p>
-            <button
-              onClick={() => setLocation("/")}
+            <a
+              href="/#quote"
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-medium px-8 py-4 rounded-full transition-all duration-200 hover:scale-105 text-base"
               data-testid="btn-get-quote-bottom"
             >
               Get a Free Quote <ArrowRight size={18} />
-            </button>
+            </a>
           </motion.div>
         </div>
       </section>

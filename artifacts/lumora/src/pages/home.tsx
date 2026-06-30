@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { projects } from "@/data/projects";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { useStructuredData } from "@/hooks/use-structured-data";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -29,7 +30,6 @@ export default function Home() {
   const { toast } = useToast();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [, setLocation] = useLocation();
 
   usePageMeta({
     title: "Lumora — Premium Web Design & Development Agency",
@@ -40,6 +40,26 @@ export default function Home() {
       "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands who refuse to settle for ordinary.",
     canonical: "/",
   });
+
+  useStructuredData([
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Lumora",
+      "description": "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands.",
+      "email": "hello.lumoradesign@gmail.com",
+      "telephone": "+44 7366 130603",
+      "url": typeof window !== "undefined" ? window.location.origin : "",
+      "sameAs": ["https://www.instagram.com/lumora_ig/"],
+      "serviceType": ["Web Design", "Web Development", "UI/UX Design", "Brand Identity", "SEO Optimization", "Conversion Optimization"],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Lumora",
+      "url": typeof window !== "undefined" ? window.location.origin : "",
+    },
+  ]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -106,20 +126,21 @@ export default function Home() {
 
           <nav className="hidden md:flex items-center gap-8">
             {["Services", "Process", "About", "Reviews"].map((item) => (
-              <button
+              <a
                 key={item}
-                onClick={() => scrollTo(item.toLowerCase())}
+                href={`#${item.toLowerCase()}`}
+                onClick={(e) => { e.preventDefault(); scrollTo(item.toLowerCase()); }}
                 className="text-base font-medium text-muted-foreground hover:text-primary transition-colors"
               >
                 {item}
-              </button>
+              </a>
             ))}
-            <button
-              onClick={() => setLocation("/portfolio")}
+            <Link
+              href="/portfolio"
               className="text-base font-medium text-muted-foreground hover:text-primary transition-colors"
             >
               Portfolio
-            </button>
+            </Link>
             <Button
               onClick={() => scrollTo("quote")}
               className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-7 py-2.5 text-base"
@@ -145,20 +166,22 @@ export default function Home() {
               className="absolute top-full left-0 w-full bg-white shadow-lg border-t py-4 px-4 flex flex-col gap-4 md:hidden"
             >
               {["Services", "Process", "About", "Reviews"].map((item) => (
-                <button
+                <a
                   key={item}
-                  onClick={() => scrollTo(item.toLowerCase())}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={(e) => { e.preventDefault(); scrollTo(item.toLowerCase()); }}
                   className="text-left text-lg font-medium py-2 border-b border-border/50"
                 >
                   {item}
-                </button>
+                </a>
               ))}
-              <button
-                onClick={() => { setMobileMenuOpen(false); setLocation("/portfolio"); }}
-                className="text-left text-lg font-medium py-2 border-b border-border/50"
+              <Link
+                href="/portfolio"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-left text-lg font-medium py-2 border-b border-border/50 block"
               >
                 Portfolio
-              </button>
+              </Link>
               <Button onClick={() => scrollTo("quote")} className="w-full mt-2 rounded-full">
                 Get a Quote
               </Button>
@@ -259,12 +282,12 @@ export default function Home() {
               <p className="mt-4 text-lg text-muted-foreground">A glimpse into our recent digital transformations.</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <button
-                onClick={() => setLocation("/portfolio")}
+              <Link
+                href="/portfolio"
                 className="inline-flex items-center gap-2 text-sm font-medium text-primary border border-primary/30 hover:bg-primary/5 px-5 py-2.5 rounded-full transition-colors"
               >
                 View All Projects →
-              </button>
+              </Link>
             </motion.div>
           </div>
 
@@ -276,31 +299,34 @@ export default function Home() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group relative rounded-2xl overflow-hidden cursor-pointer"
-                onClick={() => setLocation(`/portfolio/${project.slug}`)}
                 data-testid={`card-featured-${project.id}`}
               >
-                <div className={`aspect-[4/3] w-full bg-gradient-to-br ${project.heroGradient} relative overflow-hidden`}>
-                  <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
-                    <span className="font-serif text-3xl font-bold text-white/15 tracking-widest uppercase">
-                      {project.title.split(" ")[0]}
-                    </span>
+                <Link
+                  href={`/portfolio/${project.slug}`}
+                  className="group relative rounded-2xl overflow-hidden cursor-pointer block"
+                >
+                  <div className={`aspect-[4/3] w-full bg-gradient-to-br ${project.heroGradient} relative overflow-hidden`}>
+                    <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
+                      <span className="font-serif text-3xl font-bold text-white/15 tracking-widest uppercase">
+                        {project.title.split(" ")[0]}
+                      </span>
+                    </div>
+                    <img
+                      src={`https://api.microlink.io?url=${encodeURIComponent(project.previewUrl)}&screenshot=true&meta=false&embed=screenshot.url`}
+                      alt={`${project.title} preview`}
+                      className="absolute inset-0 w-full h-full object-cover object-top opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-100 group-hover:scale-105 transition-transform"
+                      loading="lazy"
+                    />
                   </div>
-                  <img
-                    src={`https://api.microlink.io?url=${encodeURIComponent(project.previewUrl)}&screenshot=true&meta=false&embed=screenshot.url`}
-                    alt={`${project.title} preview`}
-                    className="absolute inset-0 w-full h-full object-cover object-top opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-100 group-hover:scale-105 transition-transform"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                  <p className="text-white/70 text-xs font-medium mb-2 tracking-widest uppercase">{project.category}</p>
-                  <h3 className="text-white text-2xl font-serif font-bold">{project.title}</h3>
-                  <p className="text-white/60 text-sm mt-2 line-clamp-2">{project.shortDescription}</p>
-                  <div className="mt-4 flex items-center text-white text-sm font-medium gap-1">
-                    View Case Study <span className="transition-transform group-hover:translate-x-1">→</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
+                    <p className="text-white/70 text-xs font-medium mb-2 tracking-widest uppercase">{project.category}</p>
+                    <h3 className="text-white text-2xl font-serif font-bold">{project.title}</h3>
+                    <p className="text-white/60 text-sm mt-2 line-clamp-2">{project.shortDescription}</p>
+                    <div className="mt-4 flex items-center text-white text-sm font-medium gap-1">
+                      View Case Study <span className="transition-transform group-hover:translate-x-1">→</span>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -311,12 +337,12 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mt-10"
           >
-            <button
-              onClick={() => setLocation("/portfolio")}
+            <Link
+              href="/portfolio"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary text-sm transition-colors"
             >
               See all 6 projects →
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -639,21 +665,21 @@ export default function Home() {
             <div>
               <h4 className="font-serif font-bold text-xl text-white tracking-tight mb-6">Services</h4>
               <ul className="space-y-3 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Web Design</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Web Development</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">UI/UX Design</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Brand Identity</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">SEO Optimisation</a></li>
+                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }} className="hover:text-white transition-colors">Web Design</a></li>
+                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }} className="hover:text-white transition-colors">Web Development</a></li>
+                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }} className="hover:text-white transition-colors">UI/UX Design</a></li>
+                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }} className="hover:text-white transition-colors">Brand Identity</a></li>
+                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }} className="hover:text-white transition-colors">SEO Optimisation</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-serif font-bold text-xl text-white tracking-tight mb-6">Company</h4>
               <ul className="space-y-3 text-sm">
-                <li><button onClick={() => scrollTo("portfolio")} className="hover:text-white transition-colors">Portfolio</button></li>
-                <li><button onClick={() => scrollTo("process")} className="hover:text-white transition-colors">Our Process</button></li>
-                <li><button onClick={() => scrollTo("about")} className="hover:text-white transition-colors">About Us</button></li>
-                <li><button onClick={() => scrollTo("reviews")} className="hover:text-white transition-colors">Client Reviews</button></li>
+                <li><a href="#portfolio" onClick={(e) => { e.preventDefault(); scrollTo("portfolio"); }} className="hover:text-white transition-colors">Portfolio</a></li>
+                <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }} className="hover:text-white transition-colors">Our Process</a></li>
+                <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollTo("about"); }} className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="#reviews" onClick={(e) => { e.preventDefault(); scrollTo("reviews"); }} className="hover:text-white transition-colors">Client Reviews</a></li>
               </ul>
             </div>
 
