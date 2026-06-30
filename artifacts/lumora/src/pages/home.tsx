@@ -741,7 +741,7 @@ export default function Home() {
               { q: "Do you use templates?", a: "No. Every project we undertake is fully custom-designed for your brand to perfectly align with your unique needs and goals." },
               { q: "What tech stack do you use?", a: "We specialize in modern React ecosystems (Next.js, Vite), robust headless CMS solutions (Sanity, Contentful), and modern CSS frameworks like Tailwind." },
               { q: "Do you provide ongoing maintenance?", a: "Yes, we offer monthly and yearly maintanence packages for ongoing technical support, updates, bug fixes, SEO optimization and analytics reviews." },
-              { q: "How does pricing work?", a: "Projects are priced based on scope, features, and timeline. Our custom engagements typically start at $10,000." },
+              { q: "How does pricing work?", a: "Pricing depends on the size and complexity of the project. Smaller sites and landing pages typically start from £500, while full websites and larger business projects start from £1,000+. We'll always give you a clear, upfront quote before starting any work." },
               { q: "Do you handle copywriting and SEO?", a: "Yes. Our team includes strategic copywriting support and SEO best practices to give your site a strong foundation for search." },
             ].map((faq, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="border-b border-border/50 py-2">
