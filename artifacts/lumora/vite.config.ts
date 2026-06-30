@@ -11,8 +11,7 @@ function sitemapPlugin(): Plugin {
     name: "generate-sitemap",
     closeBundle() {
       const rawDomains = process.env.REPLIT_DOMAINS ?? "";
-      const host = rawDomains.split(",")[0]?.trim();
-      if (!host) return;
+      const host = rawDomains.split(",")[0]?.trim() || "lumora.replit.app";
       const base = `https://${host}`;
       const outDir = path.resolve(import.meta.dirname, "dist/public");
 
