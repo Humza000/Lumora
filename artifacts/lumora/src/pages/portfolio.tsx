@@ -3,11 +3,22 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Search, ArrowRight, ArrowLeft } from "lucide-react";
 import { projects, categories, type Category } from "@/data/projects";
+import { usePageMeta } from "@/hooks/use-page-meta";
 
 export default function Portfolio() {
   const [, setLocation] = useLocation();
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  usePageMeta({
+    title: "Portfolio — Lumora Agency",
+    description:
+      "Browse Lumora's portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.",
+    ogTitle: "Portfolio — Lumora Agency",
+    ogDescription:
+      "Explore our portfolio of premium web experiences — from gym membership portals to luxury e-commerce storefronts and local trade websites.",
+    canonical: "/portfolio",
+  });
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {

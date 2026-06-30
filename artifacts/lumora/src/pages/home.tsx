@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { projects } from "@/data/projects";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -29,6 +30,16 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [, setLocation] = useLocation();
+
+  usePageMeta({
+    title: "Lumora — Premium Web Design & Development Agency",
+    description:
+      "Lumora is a boutique digital agency crafting premium, high-performance web experiences for ambitious brands. Expert web design, development, and SEO.",
+    ogTitle: "Lumora — Premium Web Design & Development Agency",
+    ogDescription:
+      "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands who refuse to settle for ordinary.",
+    canonical: "/",
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

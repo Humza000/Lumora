@@ -3,6 +3,7 @@ import { useLocation, useParams } from "wouter";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, TrendingUp } from "lucide-react";
 import { projects } from "@/data/projects";
+import { usePageMeta } from "@/hooks/use-page-meta";
 
 function CaseStudyNotFound({ onBack }: { onBack: () => void }) {
   useEffect(() => {
@@ -36,6 +37,16 @@ export default function CaseStudy() {
   const [, setLocation] = useLocation();
 
   const project = projects.find((p) => p.slug === params.slug);
+
+  usePageMeta({
+    title: project ? `${project.title} — Lumora Portfolio` : "Case Study — Lumora",
+    description: project
+      ? project.shortDescription
+      : "Explore this Lumora case study — premium web design and development for ambitious brands.",
+    ogTitle: project ? `${project.title} — Case Study | Lumora` : "Case Study — Lumora",
+    ogDescription: project ? project.shortDescription : undefined,
+    canonical: project ? `/portfolio/${project.slug}` : undefined,
+  });
 
   if (!project) {
     return <CaseStudyNotFound onBack={() => setLocation("/portfolio")} />;
