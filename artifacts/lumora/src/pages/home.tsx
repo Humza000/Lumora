@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Menu, X, Layout, Monitor, PenTool, Search, Zap, Code, Linkedin, Instagram, Dribbble } from "lucide-react";
+import { Menu, X, Layout, Monitor, PenTool, Search, Zap, Code, Linkedin, Instagram } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import lumoraLogo from "@assets/lumora_profile_pic_1782764569677.png";
 
@@ -816,7 +816,6 @@ export default function Home() {
               </a>
               <a href="#" aria-label="LinkedIn" className="text-background/50 hover:text-white transition-colors"><Linkedin size={22} /></a>
               <a href="https://www.instagram.com/lumora_ig/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-background/50 hover:text-white transition-colors"><Instagram size={22} /></a>
-              <a href="#" aria-label="Dribbble" className="text-background/50 hover:text-white transition-colors"><Dribbble size={22} /></a>
             </div>
           </div>
         </div>
