@@ -66,3 +66,13 @@ export const ListSubmissionsResponseItem = zod.object({
 export const ListSubmissionsResponse = zod.array(ListSubmissionsResponseItem)
 
 
+/**
+ * @summary Delete a contact submission
+ */
+export const DeleteSubmissionParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const DeleteSubmissionResponse = zod.void()
+
+

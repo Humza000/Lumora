@@ -519,10 +519,13 @@ export default function Home() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="web-design">Web Design</SelectItem>
-                            <SelectItem value="web-dev">Web Development</SelectItem>
-                            <SelectItem value="ecommerce">E-commerce</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="new-website">New website (brochure/marketing site)</SelectItem>
+                            <SelectItem value="redesign">Website redesign (replacing existing site)</SelectItem>
+                            <SelectItem value="ecommerce">E-commerce store</SelectItem>
+                            <SelectItem value="web-app">Web application / custom functionality</SelectItem>
+                            <SelectItem value="landing-page">Landing page (single page, campaign-focused)</SelectItem>
+                            <SelectItem value="maintenance">Ongoing maintenance / support</SelectItem>
+                            <SelectItem value="not-sure">Not sure yet</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />

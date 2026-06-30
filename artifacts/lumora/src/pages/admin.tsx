@@ -1,6 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
-import { Inbox } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Inbox, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 interface Submission {
   id: number;
@@ -19,6 +21,11 @@ async function fetchSubmissions(): Promise<Submission[]> {
   return res.json();
 }
 
+async function deleteSubmission(id: number): Promise<void> {
+  const res = await fetch(`/api/admin/submissions/${id}`, { method: "DELETE" });
+  if (!res.ok) throw new Error("Failed to delete submission");
+}
+
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", {
     year: "numeric",
@@ -30,9 +37,20 @@ function formatDate(iso: string) {
 }
 
 export default function Admin() {
+  const queryClient = useQueryClient();
+  const [confirmingId, setConfirmingId] = useState<number | null>(null);
+
   const { data: submissions, isLoading, error } = useQuery({
     queryKey: ["submissions"],
     queryFn: fetchSubmissions,
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteSubmission,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["submissions"] });
+      setConfirmingId(null);
+    },
   });
 
   return (
@@ -82,9 +100,42 @@ export default function Admin() {
                     </a>
                     <span className="text-muted-foreground text-sm"> · {s.company}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {formatDate(s.createdAt)}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      {formatDate(s.createdAt)}
+                    </span>
+
+                    {confirmingId === s.id ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">Delete this entry?</span>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => deleteMutation.mutate(s.id)}
+                          disabled={deleteMutation.isPending}
+                        >
+                          {deleteMutation.isPending ? "Deleting…" : "Yes, delete"}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setConfirmingId(null)}
+                          disabled={deleteMutation.isPending}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="text-muted-foreground hover:text-red-500 hover:bg-red-50"
+                        onClick={() => setConfirmingId(s.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
 
                 <div className="mt-4 flex gap-2 flex-wrap">

@@ -278,3 +278,73 @@ export function useListSubmissions<TData = Awaited<ReturnType<typeof listSubmiss
 
 
 
+export const getDeleteSubmissionUrl = (id: number,) => {
+
+
+
+
+  return `/api/admin/submissions/${id}`
+}
+
+/**
+ * @summary Delete a contact submission
+ */
+export const deleteSubmission = async (id: number, options?: RequestInit): Promise<void> => {
+
+  return customFetch<void>(getDeleteSubmissionUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+export const getDeleteSubmissionMutationOptions = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteSubmission>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteSubmission>>, TError,{id: number}, TContext> => {
+
+const mutationKey = ['deleteSubmission'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteSubmission>>, {id: number}> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteSubmission(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteSubmissionMutationResult = NonNullable<Awaited<ReturnType<typeof deleteSubmission>>>
+
+    export type DeleteSubmissionMutationError = ErrorType<ErrorResponse>
+
+    /**
+ * @summary Delete a contact submission
+ */
+export const useDeleteSubmission = <TError = ErrorType<ErrorResponse>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteSubmission>>, TError,{id: number}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteSubmission>>,
+        TError,
+        {id: number},
+        TContext
+      > => {
+      return useMutation(getDeleteSubmissionMutationOptions(options));
+    }
+
