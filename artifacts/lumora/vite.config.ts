@@ -233,7 +233,15 @@ function buildCaseStudyBodyHtml(p: (typeof projects)[number], origin: string): s
 }
 
 function injectBodyHtml(html: string, bodyContent: string): string {
-  return html.replace(/<div id="root"><\/div>/, bodyContent);
+  // Wrap the static SEO fallback so CSS can hide it until React mounts.
+  // React (createRoot) clears #root on mount, removing this wrapper entirely,
+  // so the live app is never affected — only the pre-JS fallback is hidden.
+  // This prevents a flash of unstyled prerendered text on page load while
+  // keeping the content in the DOM for crawlers.
+  const wrapped = bodyContent
+    .replace(/^<div id="root">/, '<div id="root"><div data-prerender-fallback>')
+    .replace(/<\/div>$/, "</div></div>");
+  return html.replace(/<div id="root"><\/div>/, wrapped);
 }
 
 function prerenderMetaPlugin(): Plugin {

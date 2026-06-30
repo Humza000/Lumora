@@ -19,6 +19,14 @@ html body[data-scroll-locked] {
   padding-right: 0 !important;
 }
 
+/* The production build injects a static, unstyled SEO fallback inside #root for
+   crawlers. Hide it so it never flashes before React mounts and replaces #root
+   with the styled app. The attribute exists only in the prerendered HTML, so
+   this never affects the live React app. */
+[data-prerender-fallback] {
+  display: none;
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
