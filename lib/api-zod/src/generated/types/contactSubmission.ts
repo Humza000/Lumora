@@ -10,9 +10,9 @@ export interface ContactSubmission {
   id: number;
   name: string;
   email: string;
-  company?: string | null;
+  company: string;
   projectType: string;
-  budget: string;
+  timeline: string;
   message: string;
   createdAt: Date;
 }

@@ -13,11 +13,12 @@ export interface SubmitContactBody {
   /** @minLength 2 */
   name: string;
   email: string;
-  company?: string;
+  /** @minLength 1 */
+  company: string;
   /** @minLength 1 */
   projectType: string;
   /** @minLength 1 */
-  budget: string;
+  timeline: string;
   /** @minLength 10 */
   message: string;
 }
@@ -26,9 +27,9 @@ export interface ContactSubmission {
   id: number;
   name: string;
   email: string;
-  company?: string | null;
+  company: string;
   projectType: string;
-  budget: string;
+  timeline: string;
   message: string;
   createdAt: string;
 }

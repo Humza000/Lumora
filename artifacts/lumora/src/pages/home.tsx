@@ -18,9 +18,9 @@ import lumoraLogo from "@assets/lumora_profile_pic_1782764569677.png";
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email"),
-  company: z.string().optional(),
+  company: z.string().min(1, "Please enter your company or business name"),
   projectType: z.string().min(1, "Please select a project type"),
-  budget: z.string().min(1, "Please select a budget range"),
+  timeline: z.string().min(1, "Please select a project timeline"),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -37,7 +37,7 @@ export default function Home() {
       email: "",
       company: "",
       projectType: "",
-      budget: "",
+      timeline: "",
       message: "",
     },
   });
@@ -498,7 +498,7 @@ export default function Home() {
                     name="company"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Company (Optional)</FormLabel>
+                        <FormLabel>Company / Business</FormLabel>
                         <FormControl>
                           <Input placeholder="Acme Inc." {...field} className="bg-secondary/20" />
                         </FormControl>
@@ -533,20 +533,21 @@ export default function Home() {
 
                 <FormField
                   control={form.control}
-                  name="budget"
+                  name="timeline"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Budget Range</FormLabel>
+                      <FormLabel>Project Timeline</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="bg-secondary/20">
-                            <SelectValue placeholder="Select budget" />
+                            <SelectValue placeholder="Select timeline" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="10k-25k">$10k - $25k</SelectItem>
-                          <SelectItem value="25k-50k">$25k - $50k</SelectItem>
-                          <SelectItem value="50k+">$50k+</SelectItem>
+                          <SelectItem value="asap">ASAP</SelectItem>
+                          <SelectItem value="2-3-weeks">2–3 Weeks</SelectItem>
+                          <SelectItem value="1-month">1 Month</SelectItem>
+                          <SelectItem value="2-months">2 Months</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

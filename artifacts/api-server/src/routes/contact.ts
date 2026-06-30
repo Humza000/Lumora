@@ -12,14 +12,14 @@ router.post("/contact", async (req, res): Promise<void> => {
     return;
   }
 
-  const { name, email, company, projectType, budget, message } = parsed.data;
+  const { name, email, company, projectType, timeline, message } = parsed.data;
 
   const [submission] = await db
     .insert(quoteSubmissionsTable)
-    .values({ name, email, company: company ?? null, projectType, budget, message })
+    .values({ name, email, company, projectType, timeline, message })
     .returning();
 
-  sendQuoteNotification({ name, email, company, projectType, budget, message }).catch(
+  sendQuoteNotification({ name, email, company, projectType, timeline, message }).catch(
     () => {},
   );
 

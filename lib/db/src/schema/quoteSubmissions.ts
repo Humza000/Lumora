@@ -6,9 +6,9 @@ export const quoteSubmissionsTable = pgTable("quote_submissions", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  company: text("company"),
+  company: text("company").notNull(),
   projectType: text("project_type").notNull(),
-  budget: text("budget").notNull(),
+  timeline: text("timeline").notNull(),
   message: text("message").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });

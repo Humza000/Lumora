@@ -24,6 +24,7 @@ export const submitContactBodyNameMin = 2;
 
 
 
+
 export const submitContactBodyMessageMin = 10;
 
 
@@ -31,9 +32,9 @@ export const submitContactBodyMessageMin = 10;
 export const SubmitContactBody = zod.object({
   "name": zod.string().min(submitContactBodyNameMin),
   "email": zod.string().email(),
-  "company": zod.string().optional(),
+  "company": zod.string().min(1),
   "projectType": zod.string().min(1),
-  "budget": zod.string().min(1),
+  "timeline": zod.string().min(1),
   "message": zod.string().min(submitContactBodyMessageMin)
 })
 
@@ -41,9 +42,9 @@ export const SubmitContactResponse = zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "email": zod.string(),
-  "company": zod.string().nullish(),
+  "company": zod.string(),
   "projectType": zod.string(),
-  "budget": zod.string(),
+  "timeline": zod.string(),
   "message": zod.string(),
   "createdAt": zod.coerce.date()
 })
@@ -56,9 +57,9 @@ export const ListSubmissionsResponseItem = zod.object({
   "id": zod.number(),
   "name": zod.string(),
   "email": zod.string(),
-  "company": zod.string().nullish(),
+  "company": zod.string(),
   "projectType": zod.string(),
-  "budget": zod.string(),
+  "timeline": zod.string(),
   "message": zod.string(),
   "createdAt": zod.coerce.date()
 })

@@ -90,10 +90,11 @@ components:
           format: email
         company:
           type: string
+          minLength: 1
         projectType:
           type: string
           minLength: 1
-        budget:
+        timeline:
           type: string
           minLength: 1
         message:
@@ -102,8 +103,9 @@ components:
       required:
         - name
         - email
+        - company
         - projectType
-        - budget
+        - timeline
         - message
 
     ContactSubmission:
@@ -117,10 +119,9 @@ components:
           type: string
         company:
           type: string
-          nullable: true
         projectType:
           type: string
-        budget:
+        timeline:
           type: string
         message:
           type: string
@@ -131,8 +132,9 @@ components:
         - id
         - name
         - email
+        - company
         - projectType
-        - budget
+        - timeline
         - message
         - createdAt
 

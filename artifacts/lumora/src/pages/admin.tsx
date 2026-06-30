@@ -6,9 +6,9 @@ interface Submission {
   id: number;
   name: string;
   email: string;
-  company: string | null;
+  company: string;
   projectType: string;
-  budget: string;
+  timeline: string;
   message: string;
   createdAt: string;
 }
@@ -80,9 +80,7 @@ export default function Admin() {
                     <a href={`mailto:${s.email}`} className="text-primary hover:underline text-sm">
                       {s.email}
                     </a>
-                    {s.company && (
-                      <span className="text-muted-foreground text-sm"> · {s.company}</span>
-                    )}
+                    <span className="text-muted-foreground text-sm"> · {s.company}</span>
                   </div>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
                     {formatDate(s.createdAt)}
@@ -91,7 +89,7 @@ export default function Admin() {
 
                 <div className="mt-4 flex gap-2 flex-wrap">
                   <Badge variant="outline">{s.projectType}</Badge>
-                  <Badge variant="outline">{s.budget}</Badge>
+                  <Badge variant="outline">{s.timeline}</Badge>
                 </div>
 
                 <p className="mt-4 text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
