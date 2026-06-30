@@ -682,11 +682,11 @@ export default function Home() {
                   name="timeline"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Timeline</FormLabel>
+                      <FormLabel>Inspirations</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="bg-secondary/20">
-                            <SelectValue placeholder="Select timeline" />
+                            <SelectValue placeholder="Select inspirations" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
