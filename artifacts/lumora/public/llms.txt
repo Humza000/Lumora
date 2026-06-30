@@ -1,0 +1,17 @@
+# Lumora
+
+> Lumora is a web design and digital agency that builds high-performance, conversion-focused websites for small and medium-sized businesses. Services include bespoke website design, e-commerce development, SEO, and digital strategy.
+
+## Important Pages
+
+- [Home](/): Agency overview, hero, services summary, featured portfolio work, and contact.
+- [Portfolio](/portfolio): Full case study index — all client projects with industry filters (Business, Trades, Restaurants, Healthcare, E-commerce).
+
+## Case Studies
+
+- [Peak Performance Gym](/portfolio/peak-performance-gym): Conversion-driven membership and class-booking website for a premium gym chain. Results: +340% online memberships, 0.8s page load.
+- [Maison & Co](/portfolio/maison-co): Luxury Shopify Plus e-commerce storefront with AR product preview for a curated homewares brand. Results: +85% average order value, 42% cart abandonment reduction.
+- [Sterling Legal Group](/portfolio/sterling-legal-group): Trust-building, lead-generating website for a multi-practice law firm with CRM-integrated client intake. Results: +280% qualified leads, +165% organic search traffic.
+- [The Workshop Café](/portfolio/the-workshop-cafe): Character-rich restaurant website with real-time table reservations, digital loyalty programme, and dynamic seasonal menu. Results: 55% reduction in no-shows, 800+ monthly online bookings.
+- [BrightSmile Dental](/portfolio/brightsmile-dental): Patient-first dental practice website with 24/7 online booking, treatment guides, and HIPAA-compliant patient portal. Results: +145% new patient growth, 4.9★ Google rating.
+- [TradeCraft Plumbing](/portfolio/tradecraft-plumbing): Local trades website with instant quoting, emergency call-out, and suburb-level SEO. Results: +310% Google organic leads, 47 page-1 keyword rankings.
