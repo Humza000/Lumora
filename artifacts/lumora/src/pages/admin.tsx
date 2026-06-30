@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Inbox, Trash2 } from "lucide-react";
+import { Inbox, Trash2, RefreshCw } from "lucide-react";
 import { useState } from "react";
 
 interface Submission {
@@ -40,9 +40,11 @@ export default function Admin() {
   const queryClient = useQueryClient();
   const [confirmingId, setConfirmingId] = useState<number | null>(null);
 
-  const { data: submissions, isLoading, error } = useQuery({
+  const { data: submissions, isLoading, error, refetch, isFetching } = useQuery({
     queryKey: ["submissions"],
     queryFn: fetchSubmissions,
+    refetchInterval: 30_000,
+    staleTime: 0,
   });
 
   const deleteMutation = useMutation({
@@ -66,11 +68,23 @@ export default function Admin() {
             <h1 className="text-2xl font-bold text-foreground">Quote Requests</h1>
             <p className="text-muted-foreground mt-1">All form submissions from the website</p>
           </div>
-          {submissions && (
-            <Badge variant="secondary" className="text-sm px-3 py-1">
-              {submissions.length} {submissions.length === 1 ? "submission" : "submissions"}
-            </Badge>
-          )}
+          <div className="flex items-center gap-3">
+            {submissions && (
+              <Badge variant="secondary" className="text-sm px-3 py-1">
+                {submissions.length} {submissions.length === 1 ? "submission" : "submissions"}
+              </Badge>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => refetch()}
+              disabled={isFetching}
+              className="gap-2"
+            >
+              <RefreshCw className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`} />
+              Refresh
+            </Button>
+          </div>
         </div>
 
         {isLoading && (
