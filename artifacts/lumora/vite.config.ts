@@ -3,15 +3,13 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import fs from "fs";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 import { projects } from "./src/data/projects";
 
 function sitemapPlugin(): Plugin {
   return {
     name: "generate-sitemap",
     closeBundle() {
-      const rawDomains = process.env.REPLIT_DOMAINS ?? "";
-      const host = rawDomains.split(",")[0]?.trim() || "lumora.replit.app";
+      const host = "lumoradesign.uk";
       const base = `https://${host}`;
       const outDir = path.resolve(import.meta.dirname, "dist/public");
 
@@ -127,17 +125,6 @@ function buildHomeBodyHtml(origin: string): string {
         <p>A boutique digital agency crafting premium, high-performance web experiences for ambitious brands who refuse to settle for ordinary.</p>
       </section>
       <section>
-        <h2>Services</h2>
-        <ul>
-          <li>Web Design — Bespoke, user-centric interfaces that captivate and engage your audience.</li>
-          <li>Web Development — Robust, scalable, and lightning-fast code architectures built for the future.</li>
-          <li>UI/UX Design — Intuitive user journeys rooted in deep research and psychological principles.</li>
-          <li>Brand Identity — Cohesive visual systems that communicate your unique market position.</li>
-          <li>SEO Optimization — Strategic technical implementation to ensure your brand is discovered.</li>
-          <li>Conversion Optimization — Data-driven refinements that turn casual visitors into loyal customers.</li>
-        </ul>
-      </section>
-      <section>
         <h2>Selected Work</h2>
         ${featuredCards}
         <p><a href="${origin}/portfolio">View all projects</a></p>
@@ -159,7 +146,6 @@ function buildPortfolioBodyHtml(origin: string): string {
           <h2><a href="${origin}/portfolio/${p.slug}">${escapeHtml(p.title)}</a></h2>
           <p>${escapeHtml(p.category)} · ${escapeHtml(p.industry)}</p>
           <p>${escapeHtml(p.shortDescription)}</p>
-          <ul>${p.badges.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}</ul>
           <a href="${origin}/portfolio/${p.slug}">View Case Study</a>
         </article>`
     )
@@ -173,7 +159,7 @@ function buildPortfolioBodyHtml(origin: string): string {
     </header>
     <main>
       <h1>Portfolio — Lumora Agency</h1>
-      <p>Browse our portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.</p>
+      <p>Browse our portfolio of premium web design and development projects.</p>
       <section>
       ${projectCards}
       </section>
@@ -201,43 +187,18 @@ function buildCaseStudyBodyHtml(p: (typeof projects)[number], origin: string): s
     <main>
       <article>
         <header>
-          <span>${escapeHtml(p.category)} · ${escapeHtml(p.industry)}</span>
           <h1>${escapeHtml(p.title)}</h1>
           <p>${escapeHtml(p.shortDescription)}</p>
         </header>
-        <section>
-          <h2>Results</h2>
-          <ul>${resultItems}</ul>
-        </section>
-        <section>
-          <h2>The Challenge</h2>
-          <p>${escapeHtml(p.challenge)}</p>
-        </section>
-        <section>
-          <h2>Our Solution</h2>
-          <p>${escapeHtml(p.solution)}</p>
-        </section>
-        <section>
-          <h2>Key Features</h2>
-          <ul>${featureItems}</ul>
-        </section>
-        <section>
-          <h2>Technologies</h2>
-          <ul>${techItems}</ul>
-        </section>
-        <footer>
-          <a href="${origin}/portfolio">View all projects</a>
-        </footer>
+        <section><h2>Results</h2><ul>${resultItems}</ul></section>
+        <section><h2>Key Features</h2><ul>${featureItems}</ul></section>
+        <section><h2>Technologies</h2><ul>${techItems}</ul></section>
+        <footer><a href="${origin}/portfolio">View all projects</a></footer>
       </article>
     </main></div>`;
 }
 
 function injectBodyHtml(html: string, bodyContent: string): string {
-  // Wrap the static SEO fallback so CSS can hide it until React mounts.
-  // React (createRoot) clears #root on mount, removing this wrapper entirely,
-  // so the live app is never affected — only the pre-JS fallback is hidden.
-  // This prevents a flash of unstyled prerendered text on page load while
-  // keeping the content in the DOM for crawlers.
   const wrapped = bodyContent
     .replace(/^<div id="root">/, '<div id="root"><div data-prerender-fallback>')
     .replace(/<\/div>$/, "</div></div>");
@@ -245,33 +206,27 @@ function injectBodyHtml(html: string, bodyContent: string): string {
 }
 
 function prerenderMetaPlugin(): Plugin {
+  const origin = "https://lumoradesign.uk";
+
   return {
     name: "prerender-meta",
     apply: "build",
     closeBundle() {
-      const rawDomains = process.env.REPLIT_DOMAINS ?? "";
-      const host = rawDomains.split(",")[0]?.trim();
-      const baseUrl = host ? `https://${host}` : "";
       const outDir = path.resolve(import.meta.dirname, "dist/public");
       const templatePath = path.join(outDir, "index.html");
-
       if (!fs.existsSync(templatePath)) return;
 
       const template = fs.readFileSync(templatePath, "utf8");
-      const ogImage = baseUrl ? `${baseUrl}/opengraph.jpg` : "/opengraph.jpg";
-
-      const origin = baseUrl || "";
+      const ogImage = `${origin}/opengraph.jpg`;
 
       const orgSchema = {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "Lumora",
         "description": "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands.",
-        "email": "hello.lumoradesign@gmail.com",
-        "telephone": "+44 7366 130603",
-        "url": origin || undefined,
-        "sameAs": ["https://www.instagram.com/lumora_ig/"],
-        "serviceType": ["Web Design", "Web Development", "UI/UX Design", "Brand Identity", "SEO Optimization", "Conversion Optimization"],
+        "email": "hello@lumoradesign.uk",
+        "url": origin,
+        "serviceType": ["Web Design", "Web Development", "UI/UX Design", "Brand Identity", "SEO Optimization"],
       };
 
       const routes: Array<{ routePath: string; outPath: string; meta: RouteMeta }> = [
@@ -280,20 +235,8 @@ function prerenderMetaPlugin(): Plugin {
           outPath: "index.html",
           meta: {
             title: "Lumora — Premium Web Design & Development Agency",
-            description:
-              "Lumora is a boutique digital agency crafting premium, high-performance web experiences for ambitious brands. Expert web design, development, and SEO.",
-            ogTitle: "Lumora — Premium Web Design & Development Agency",
-            ogDescription:
-              "A boutique digital agency crafting premium, high-performance web experiences for ambitious brands who refuse to settle for ordinary.",
-            schemas: [
-              orgSchema,
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "Lumora",
-                "url": origin || undefined,
-              },
-            ],
+            description: "Lumora is a boutique digital agency crafting premium, high-performance web experiences for ambitious brands.",
+            schemas: [orgSchema],
           },
         },
         {
@@ -301,28 +244,8 @@ function prerenderMetaPlugin(): Plugin {
           outPath: "portfolio/index.html",
           meta: {
             title: "Portfolio — Lumora Agency",
-            description:
-              "Browse Lumora's portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.",
-            ogTitle: "Portfolio — Lumora Agency",
-            ogDescription:
-              "Explore our portfolio of premium web experiences — from gym membership portals to luxury e-commerce storefronts and local trade websites.",
-            schemas: [
-              {
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                  { "@type": "ListItem", "position": 1, "name": "Home", "item": `${origin}/` },
-                  { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": `${origin}/portfolio` },
-                ],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "CollectionPage",
-                "name": "Portfolio — Lumora Agency",
-                "description": "Browse Lumora's portfolio of premium web design and development projects across business, e-commerce, healthcare, trades, and restaurants.",
-                "url": `${origin}/portfolio`,
-              },
-            ],
+            description: "Browse Lumora's portfolio of premium web design and development projects.",
+            schemas: [],
           },
         },
         ...projects.map((p) => ({
@@ -331,35 +254,13 @@ function prerenderMetaPlugin(): Plugin {
           meta: {
             title: `${p.title} — Lumora Portfolio`,
             description: p.shortDescription,
-            ogTitle: `${p.title} — Case Study | Lumora`,
-            ogDescription: p.shortDescription,
-            schemas: [
-              {
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                "itemListElement": [
-                  { "@type": "ListItem", "position": 1, "name": "Home", "item": `${origin}/` },
-                  { "@type": "ListItem", "position": 2, "name": "Portfolio", "item": `${origin}/portfolio` },
-                  { "@type": "ListItem", "position": 3, "name": p.title, "item": `${origin}/portfolio/${p.slug}` },
-                ],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Article",
-                "headline": p.title,
-                "description": p.shortDescription,
-                "url": `${origin}/portfolio/${p.slug}`,
-                "author": { "@type": "Organization", "name": "Lumora" },
-                "publisher": { "@type": "Organization", "name": "Lumora" },
-                "about": { "@type": "Thing", "name": p.industry },
-              },
-            ],
+            schemas: [],
           },
         })),
       ];
 
       for (const route of routes) {
-        const canonical = baseUrl ? `${baseUrl}${route.routePath}` : route.routePath;
+        const canonical = `${origin}${route.routePath}`;
         let html = injectHeadMeta(template, {
           ...route.meta,
           canonical,
@@ -369,7 +270,6 @@ function prerenderMetaPlugin(): Plugin {
         if (route.meta.schemas && route.meta.schemas.length > 0) {
           html = injectJsonLd(html, route.meta.schemas);
         }
-
         if (route.routePath === "/") {
           html = injectBodyHtml(html, buildHomeBodyHtml(origin));
         } else if (route.routePath === "/portfolio") {
@@ -377,11 +277,8 @@ function prerenderMetaPlugin(): Plugin {
         } else if (route.routePath.startsWith("/portfolio/")) {
           const slug = route.routePath.replace("/portfolio/", "");
           const project = projects.find((p) => p.slug === slug);
-          if (project) {
-            html = injectBodyHtml(html, buildCaseStudyBodyHtml(project, origin));
-          }
+          if (project) html = injectBodyHtml(html, buildCaseStudyBodyHtml(project, origin));
         }
-
         const outFilePath = path.join(outDir, route.outPath);
         fs.mkdirSync(path.dirname(outFilePath), { recursive: true });
         fs.writeFileSync(outFilePath, html);
@@ -390,49 +287,12 @@ function prerenderMetaPlugin(): Plugin {
   };
 }
 
-const rawPort = process.env.PORT;
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
-
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
-
 export default defineConfig({
-  base: basePath,
   plugins: [
     react(),
     tailwindcss(),
-    runtimeErrorOverlay(),
     sitemapPlugin(),
     prerenderMetaPlugin(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer({
-              root: path.resolve(import.meta.dirname, ".."),
-            }),
-          ),
-          await import("@replit/vite-plugin-dev-banner").then((m) =>
-            m.devBanner(),
-          ),
-        ]
-      : []),
   ],
   resolve: {
     alias: {
@@ -447,17 +307,7 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
-    port,
-    strictPort: true,
+    port: 3000,
     host: "0.0.0.0",
-    allowedHosts: true,
-    fs: {
-      strict: true,
-    },
-  },
-  preview: {
-    port,
-    host: "0.0.0.0",
-    allowedHosts: true,
   },
 });
